@@ -1,4 +1,4 @@
-# athenaHealth
+# Log Parsing
 Step1: Copy all the four scripts into a folder in your system.
 Step 2: Run gen.py- Asks for 3 inputs.
     It will ask for path, where the input files would be generated and placed. Give the same path as where you had saved those 4 scripts.
