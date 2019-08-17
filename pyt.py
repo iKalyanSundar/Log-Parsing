@@ -10,6 +10,8 @@ print("Program starts")
 whole_data_s1=0
 whole_data_s2=0
 whole_data_s3=0
+server_line_cnt=0
+server_line_cnt_data=[]
 
 #Function call to get the path where the output files has to be placed/created
 path=m.get_file_path_input()
@@ -33,13 +35,12 @@ for f in csv_file_list1:
     unique=data['servername'].unique()
     
     #Getting count of records for each servername in source file
-    server_line_count_s1=data[data['servername'] == 'server1']
-    server_line_count_s2=data[data['servername'] == 'server2']
-    server_line_count_s3=data[data['servername'] == 'server3']
-    
-    whole_data_s1=whole_data_s1+len(server_line_count_s1.index)
-    whole_data_s2=whole_data_s2+len(server_line_count_s2.index)	
-    whole_data_s3=whole_data_s3+len(server_line_count_s3.index)	
+    for i0 in unique:
+        server_line_cnt=0
+        for f0 in csv_file_list:
+            server_line_count=data[data['servername'] == str(i0)]
+            server_line_cnt=server_line_cnt+len(server_line_count.index)
+        server_line_cnt_data.append(server_line_cnt)
 	
 	#Looping through the unique servernames
     for i in unique:
@@ -89,11 +90,11 @@ if testing == 'Y' or testing == 'y':
     if "win" in sys.platform:
         tgt_file_list = glob.glob(str(path)+"*.txt")
         u.test_target_files(tgt_file_list,unique)
-        u.test_count_of_lines(str(path),unique,whole_data_s1,whole_data_s2,whole_data_s3)
+        u.test_count_of_lines(unique,server_line_cnt_data,str(path))
     else:
         tgt_file_list = glob.glob(str(path)+"*.txt")
         u.test_target_files(tgt_file_list,unique)
-        u.test_count_of_lines(unique,whole_data_s1,whole_data_s2,whole_data_s3)
+        u.test_count_of_lines(unique,server_line_cnt_data,str(path))
 		
 else:
     print("Unit testing option is not opted. Y or y should be provided by the user inorder to execute and give the unit testing results. Please try again executing this script from the beginning")
